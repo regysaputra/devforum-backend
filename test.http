@@ -1,0 +1,48 @@
+### Request Code for Verification using email
+POST http://localhost:3000/api/auth/register/request-code
+Content-Type: application/json
+
+{
+  "identifier": "regysaputradev@gmail.com",
+  "channel": "email"
+}
+
+### Request Code for Verification using sms
+POST http://localhost:3000/api/auth/register/request-code
+Content-Type: application/json
+
+{
+  "identifier": "+62895326130662",
+  "channel": "sms"
+}
+
+### Verify Code
+POST http://localhost:3000/api/auth/register/verify-code
+Content-Type: application/json
+
+{
+  "code": "987003",
+  "identifier": "regysaputradev@gmail.com"
+}
+
+### Register User
+POST http://localhost:3000/api/auth/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoicmVneXNhcHV0cmFkZXZAZ21haWwuY29tIiwiaWF0IjoxNzczMzgwNDU3LCJleHAiOjE3NzMzODIyNTd9.OshtSjDirwlQoA0kjfQF1cfL2gqNie-b0rzNp3M3VqY
+X-Forwarded-For: 114.10.148.4
+Content-Type: application/json
+
+{
+  "name": "Regy Saputra",
+  "password": "12345678"
+}
+
+### Login User
+POST http://localhost:3000/api/auth/login
+X-Forwarded-For: 114.10.148.4
+Content-Type: application/json
+
+{
+  "email": "regysaputradev@gmail.com",
+  "password": "12345678",
+  "rememberMe": false
+}
