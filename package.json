@@ -24,7 +24,6 @@
     "doc": "redocly bundle swagger/index.yaml --output swagger/index.json"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1007.0",
     "awilix": "^12.1.0",
     "awilix-express": "^10.0.0",
     "axios": "^1.13.5",
@@ -53,8 +52,6 @@
     "jest": "^30.2.0",
     "node-pg-migrate": "^8.0.4",
     "nodemon": "^3.1.14",
-    "serverless-localstack": "^1.4.0",
-    "serverless-offline": "^14.5.0",
     "supertest": "^7.2.2"
   }
 }
