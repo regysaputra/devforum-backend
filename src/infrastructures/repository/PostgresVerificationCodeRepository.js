@@ -27,7 +27,7 @@ class PostgresVerificationCodeRepository extends VerificationCodeRepository {
 
   async findByIdentifier(identifier) {
     const query = {
-      text: "SELECT * FROM verification_codes WHERE identifier = $1 AND expires_at > NOW()",
+      text: "SELECT * FROM verification_codes WHERE identifier = $1 AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1",
       values: [identifier]
     }
 

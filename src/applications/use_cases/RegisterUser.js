@@ -49,20 +49,9 @@ class RegisterUser {
         phoneNumber: isValidPhone ? payload.identifier : null,
         password: password,
         verified: true,
-        createdAt: new Date(),
-        updatedAt: null,
       });
 
-      const result = await this.#userRepository.save(user);
-
-      if (result) {
-        this.#logger.error('Register user failed', {
-          identifier: payload.identifier,
-          dbError: result.error,
-        });
-
-        return Result.fail("Failed to create account. Please try again");
-      }
+      await this.#userRepository.save(user);
 
       const accessToken = this.#tokenService.generate({ userId: user.id });
       const refreshToken = this.#opaqueTokenService.generate({ userId: user.id });

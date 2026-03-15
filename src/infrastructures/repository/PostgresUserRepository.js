@@ -11,7 +11,7 @@ class PostgresUserRepository extends UserRepository {
 
   async save(user) {
     const query = {
-      text: "INSERT INTO users VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+      text: "INSERT INTO users(id, name, email, phone_number, password, verified) VALUES($1, $2, $3, $4, $5, $6)",
       values: [
         user.id,
         user.name,
@@ -19,14 +19,10 @@ class PostgresUserRepository extends UserRepository {
         user.phoneNumber,
         user.password,
         user.verified,
-        user.createdAt,
-        user.updatedAt
       ]
     }
 
     await this.#dbPool.query(query);
-
-    return true;
   }
 
   async findVerifiedUserByIdentifier(identifier) {

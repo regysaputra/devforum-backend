@@ -21,7 +21,7 @@ POST http://localhost:3000/api/auth/register/verify-code
 Content-Type: application/json
 
 {
-  "code": "431383",
+  "code": "394639",
   "identifier": "regysaputradev@gmail.com"
 }
 
