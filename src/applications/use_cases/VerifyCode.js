@@ -31,6 +31,11 @@ class VerifyCode {
       }
 
       const isValid = await this.#hashService.compare(payload.code, result.codeHash);
+      console.log("--- DEBUG HASH ---");
+      console.log("Payload Code Type:", typeof payload.code);
+      console.log("Payload Code Value:", `'${payload.code}'`); // The quotes will reveal hidden spaces!
+      console.log("DB Hash Length:", result.codeHash ? result.codeHash.length : 'UNDEFINED');
+      console.log("------------------");
       console.log("isValid :", isValid);
       if (!isValid) {
         return Result.fail("invalid or expired verification code");
