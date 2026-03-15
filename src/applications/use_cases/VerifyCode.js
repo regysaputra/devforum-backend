@@ -24,12 +24,14 @@ class VerifyCode {
       }
 
       // check expiration time
+      console.log("result.expiresAt :", result.expiresAt);
+      console.log("isExpired  :", new Date() > result.expiresAt);
       if (new Date() > result.expiresAt) {
         return Result.fail("invalid or expired verification code");
       }
 
       const isValid = await this.#hashService.compare(payload.code, result.codeHash);
-
+      console.log("isValid :", isValid);
       if (!isValid) {
         return Result.fail("invalid or expired verification code");
       }
