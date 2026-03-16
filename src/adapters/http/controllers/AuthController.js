@@ -28,6 +28,7 @@ class AuthController {
 
   async requestCode(req, res, next)  {
     try {
+      console.log("REQ BODY: ", req.body);
       const result = await this.#sendVerificationCodeUseCase.execute(req.body);
 
       if (result.isFailure) {
