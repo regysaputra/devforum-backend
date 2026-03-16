@@ -59,6 +59,7 @@ class RegisterUser {
       const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day
 
       // Get geolocation
+      console.log("payload.ip :", payload.ip);
       const location = await this.#locationService.lookup(payload.ip);
       if (!location) {
         return Result.fail("Failed to get location");

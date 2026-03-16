@@ -86,7 +86,6 @@ class NodemailerEmailService {
     }
 
     try {
-      console.log("APP NAME :", config.app.name);
       // Call the external SMTP server
       const info = await this.#transporter.sendMail({
         from: `"${config.app.name}" <${this.#fromEmail}>`,
