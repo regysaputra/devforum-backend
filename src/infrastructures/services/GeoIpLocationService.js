@@ -17,7 +17,7 @@ class GeoIpLocationService extends LocationService {
     }
 
     const geo = geoip.lookup(ip);
-    console.log("GEO :", geo);
+
     if (!geo) {
       return null;
     }

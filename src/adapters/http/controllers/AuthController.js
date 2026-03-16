@@ -28,7 +28,6 @@ class AuthController {
 
   async requestCode(req, res, next)  {
     try {
-      console.log("REQ BODY: ", req.body);
       const result = await this.#sendVerificationCodeUseCase.execute(req.body);
 
       if (result.isFailure) {
@@ -37,7 +36,7 @@ class AuthController {
         if (error.code === "RATE_LIMITED") {
           return res.status(429).json({
             status: "fail",
-            data: { message: error.message }
+            data: { message: error }
           });
         }
 

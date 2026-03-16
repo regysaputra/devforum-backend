@@ -19,7 +19,7 @@ function verifyAccessToken({ logger }) {
       const token = authHeader.split(" ")[1];
 
       const decodedPayload = tokenService.verify(token);
-      console.log("decodePayload :", decodedPayload);
+
       req.user = decodedPayload;
 
       req.container.register({

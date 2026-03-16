@@ -59,7 +59,6 @@ class RegisterUser {
       const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day
 
       // Get geolocation
-      console.log("payload.ip :", payload.ip);
       const location = await this.#locationService.lookup(payload.ip);
       if (!location) {
         return Result.fail("Failed to get location");
@@ -78,8 +77,6 @@ class RegisterUser {
         country: location.country,
         expiresAt: expiresAt, // 1 day
       });
-
-      console.log("refreshTokenEntity :", refreshTokenEntity);
 
       // Save the refresh token entity to the database
       await this.#refreshTokenRepository.save(refreshTokenEntity);
