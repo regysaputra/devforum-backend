@@ -23,7 +23,7 @@ class SendVerificationCode {
     try {
       // Check if a verified user exists with a given identifier
       const isExists = await this.#userRepository.findVerifiedUserByIdentifier(payload.identifier);
-
+      console.log("isExists :", isExists);
       if (isExists) {
         return Result.fail("User already registered. Please log in instead.");
       }
