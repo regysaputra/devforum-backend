@@ -47,6 +47,8 @@ class SendVerificationCode {
       const code = generateCode();
       const codeHash = await this.#hashService.hash(code);
       const expiresAt = new Date(Date.now() + 100 * 60 * 1000);  // 10 minutes from now
+
+      // Create a new verification code entity
       const verificationCode = new VerificationCode({
         id,
         identifier: payload.identifier,
