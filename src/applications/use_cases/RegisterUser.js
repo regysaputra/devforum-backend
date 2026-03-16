@@ -78,6 +78,8 @@ class RegisterUser {
         expiresAt: expiresAt, // 1 day
       });
 
+      console.log("refreshTokenEntity :", refreshTokenEntity);
+
       // Save the refresh token entity to the database
       await this.#refreshTokenRepository.save(refreshTokenEntity);
 

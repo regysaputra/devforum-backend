@@ -24,7 +24,7 @@ class PostgresRefreshTokenRepository extends RefreshTokenRepository {
                                        city,
                                        country,
                                        expires_at
-            ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+            ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`,
       values: [
         refreshToken.id,
         refreshToken.userId,
@@ -40,8 +40,6 @@ class PostgresRefreshTokenRepository extends RefreshTokenRepository {
     };
 
     await this.#dbPool.query(query);
-
-    return true;
   }
 
   async findByToken(tokenHash) {
