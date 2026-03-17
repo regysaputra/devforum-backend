@@ -7,8 +7,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: appleboy/ssh-action@master
-      - name: Deploy
+      - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -16,9 +15,11 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd ~/devforum-backend
+            echo "Starting deployment..."
+            cd ~/devforum-backend || exit 1
             git pull origin main
             npm install
             npm ci --omit=dev --no-audit --no-fund
             npm run migrate up
             pm2 restart all
+          debug: true
