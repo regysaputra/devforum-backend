@@ -15,16 +15,11 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            # Load the PATH from bash profile
-            source ~/.bashrc
-            # Or if using zsh:
-            # source ~/.zshrc
-            
             echo "Starting deployment..."
             cd ~/devforum-backend || exit 1
             git pull origin main
-            npm install
-            npm ci --omit=dev --no-audit --no-fund
-            npm run migrate up
-            pm2 restart all
+            /usr/bin/npm install
+            /usr/bin/npm ci --omit=dev --no-audit --no-fund
+            /usr/bin/npm run migrate up
+            /usr/bin/pm2 restart all
           debug: true
