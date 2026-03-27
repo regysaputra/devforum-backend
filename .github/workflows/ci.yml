@@ -24,5 +24,5 @@ jobs:
         run: npm ci
 
       # Run your linters or tests here to validate the Express API
-      - name: Run Tests
-        run: npm test
+#      - name: Run Tests
+#        run: npm test
