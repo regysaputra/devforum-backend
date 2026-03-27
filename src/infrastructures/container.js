@@ -26,6 +26,9 @@ import SendVerificationCodeWorker from "../applications/use_cases/SendVerificati
 import IORedis from "ioredis";
 import TwilioSmsService from "./services/TwilioSmsService.js";
 import NodemailerEmailService from "./services/NodemailerEmailService.js";
+import GetAllThread from "../applications/use_cases/GetAllThread.js";
+import ThreadController from "../adapters/http/controllers/ThreadController.js";
+import PostgresThreadRepository from "./repository/PostgresThreadRepository.js";
 
 const container = createContainer();
 
@@ -74,6 +77,7 @@ container.register({
   userRepository: asClass(PostgresUserRepository).singleton(),
   refreshTokenRepository: asClass(PostgresRefreshTokenRepository).singleton(),
   verificationCodeRepository: asClass(PostgresVerificationCodeRepository).singleton(),
+  threadRepository: asClass(PostgresThreadRepository).singleton(),
 
   // Use Cases
   sendVerificationCodeUseCase: asClass(SendVerificationCode).scoped(),
@@ -85,13 +89,15 @@ container.register({
   refreshSessionUseCase: asClass(RefreshSession).scoped(),
   logoutUseCase: asClass(Logout).scoped(),
   getProfileUseCase: asClass(GetProfile).scoped(),
+  getAllThreadUseCase: asClass(GetAllThread).scoped(),
 
   // Middlewares
   verifyAccessToken: asFunction(verifyAccessToken).singleton(),
 
   // Controllers
   authController: asClass(AuthController).scoped(),
-  userController: asClass(UserController).scoped()
+  userController: asClass(UserController).scoped(),
+  threadController: asClass(ThreadController).scoped()
 });
 
 export default container;

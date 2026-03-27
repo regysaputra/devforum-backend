@@ -1,4 +1,5 @@
 import { UAParser } from "ua-parser-js";
+import config from "../../../shared/config/index.js";
 
 class AuthController {
   #sendVerificationCodeUseCase;
@@ -144,6 +145,9 @@ class AuthController {
 
   async refreshSession(req, res, next) {
     try {
+      console.log("ENV :", config.app.env);
+      console.log("refreshToken :", req.cookies);
+
       const result = await this.#refreshSessionUseCase.execute({
         ip: req.ip,
         userAgent: this._getUserAgent(req),
@@ -157,6 +161,7 @@ class AuthController {
         if (result.error.code === 'SECURITY_COMPROMISED') {
           return res.status(403).json({ status: 'fail', data: { message: result.error.message } });
         }
+
         return res.status(401).json({ status: 'fail', data: { message: result.error } });
       }
 
@@ -192,7 +197,7 @@ class AuthController {
         status: "success",
         data: { message: "Logged out successfully" }
       });
-    } catch (error) {
+   } catch (error) {
       next(error);
     }
   }
@@ -200,8 +205,8 @@ class AuthController {
   _setRefreshTokenToCookie(res, token, expiresAt) {
     res.cookie('refresh_token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      secure: config.app.env === 'production',
+      sameSite: config.app.env === 'production' ? 'strict' : 'lax',
       expires: expiresAt,
     });
   }

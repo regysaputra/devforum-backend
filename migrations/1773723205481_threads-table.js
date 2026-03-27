@@ -1,34 +1,31 @@
 export const up = (pgm) => {
-  pgm.createTable('users', {
+  pgm.createTable('threads', {
     id: {
       type: 'uuid',
       primaryKey: true,
     },
-    full_name: {
+    user_id: {
+      type: 'uuid',
+      notNull: true,
+      references: 'users',
+      onDelete: 'cascade',
+    },
+    title: {
       type: 'text',
       notNull: true,
     },
-    username: {
+    body: {
       type: 'text',
-      unique: true,
+    },
+    score: {
+      type: 'integer',
       notNull: true,
+      default: 0,
     },
-    email: {
-      type: 'text',
-      unique: true,
-    },
-    phone_number: {
-      type: 'text',
-      unique: true,
-    },
-    password: {
-      type: 'text',
+    hotness_score: {
+      type: 'float',
       notNull: true,
-    },
-    verified: {
-      type: 'boolean',
-      notNull: true,
-      default: false,
+      default: 0,
     },
     created_at: {
       type: 'timestamptz',
@@ -37,10 +34,17 @@ export const up = (pgm) => {
     },
     updated_at: {
       type: 'timestamptz',
-    }
+    },
+  });
+
+  pgm.createIndex('threads', [
+    { name: 'hotness_score', sort: 'DESC' }
+  ], {
+    name: 'idx_threads_hotness',
+    method: 'btree',
   });
 };
 
 export const down = (pgm) => {
-  pgm.dropTable('users');
+  pgm.dropTable('threads');
 };

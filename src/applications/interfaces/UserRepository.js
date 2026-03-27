@@ -14,6 +14,10 @@ class UserRepository {
   async findByEmail(email) {
     throw new Error('USER_REPOSITORY.FIND_BY_EMAIL.METHOD_NOT_IMPLEMENTED');
   }
+
+  async findByUsername(username) {
+    throw new Error('USER_REPOSITORY.FIND_BY_USERNAME.METHOD_NOT_IMPLEMENTED');
+  }
 }
 
 export default UserRepository;

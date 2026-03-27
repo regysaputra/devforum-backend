@@ -11,12 +11,6 @@ function createUserRoutes({ verifyAccessToken }) {
     api('getProfile')
   );
 
-  // router.post(
-  //   "/register/verify-code",
-  //   validateInput(VerifyCodeDTO),
-  //   api('verifyCode')
-  // );
-
   return router;
 }
 

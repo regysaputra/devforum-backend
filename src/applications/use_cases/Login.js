@@ -53,7 +53,7 @@ class Login {
           currentLocation.latitude, currentLocation.longitude
         );
 
-        const hoursSinceLastLogin = (Date.now() - latestSession.createdAt.getTime()) / (1000 * 60 * 60);
+        const hoursSinceLastLogin = this.#calculateHoursSinceLastLogin(latestSession);
 
         // Prevent division by zero if user login instantly from the new IP
         const safeHours = Math.max(hoursSinceLastLogin, 0.01);
@@ -117,6 +117,26 @@ class Login {
 
       return Result.fail(error.message);
     }
+  }
+
+  #calculateHoursSinceLastLogin(latestSession) {
+    // Check if session exists and has createdAt
+    if (!latestSession?.createdAt) {
+      return null; // or some default value
+    }
+
+    // Ensure createdAt is a Date object
+    const createdAtDate = latestSession.createdAt instanceof Date
+      ? latestSession.createdAt
+      : new Date(latestSession.createdAt);
+
+    // Check if the date is valid
+    if (isNaN(createdAtDate.getTime())) {
+      console.error('Invalid date:', latestSession.createdAt);
+      return null;
+    }
+
+    return (Date.now() - createdAtDate.getTime()) / (1000 * 60 * 60);
   }
 }
 

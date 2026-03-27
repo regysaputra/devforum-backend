@@ -11,10 +11,11 @@ class PostgresUserRepository extends UserRepository {
 
   async save(user) {
     const query = {
-      text: "INSERT INTO users(id, name, email, phone_number, password, verified) VALUES($1, $2, $3, $4, $5, $6)",
+      text: "INSERT INTO users(id, full_name, username, email, phone_number, password, verified) VALUES($1, $2, $3, $4, $5, $6, $7)",
       values: [
         user.id,
-        user.name,
+        user.fullName,
+        user.username,
         user.email,
         user.phoneNumber,
         user.password,
@@ -53,22 +54,36 @@ class PostgresUserRepository extends UserRepository {
 
   async findByEmail(email) {
     const query = {
-      text: "SELECT * FROM users WHERE email = $1",
+      text: `
+        SELECT 
+            u.id,
+            u.full_name AS fullName,
+            u.username,
+            u.email,
+            u.phone_number as phoneNumber,
+            u.password,
+            u.verified,
+            u.created_at AS createdAt,
+            u.updated_at AS updatedAt
+        FROM users u
+        WHERE email = $1
+      `,
       values: [email]
     };
 
     const result = await this.#dbPool.query(query);
 
-    return new User({
-      id: result.rows[0].id,
-      name: result.rows[0].name,
-      email: result.rows[0].email,
-      phoneNumber: result.rows[0].phone_number,
-      password: result.rows[0].password,
-      verified: result.rows[0].verified,
-      createdAt: result.rows[0].created_at,
-      updatedAt: result.rows[0].updated_at,
-    });
+    return result.rows[0];
+  }
+
+  async findByUsername(username) {
+    const query = {
+      text: "SELECT * FROM users WHERE username = $1",
+      values: [username]
+    };
+
+    const result = await this.#dbPool.query(query);
+    return result.rows[0];
   }
 }
 

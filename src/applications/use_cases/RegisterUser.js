@@ -41,10 +41,13 @@ class RegisterUser {
       const isValidEmail = User.isEmail(payload.identifier);
       const isValidPhone = User.isPhone(payload.identifier);
 
+      const username = await this.#generateUsername(payload.name);
+
       // Save the user to the database
       const user = new User({
         id: this.#idGeneratorService.generate(),
-        name: payload.name,
+        fullName: payload.name,
+        username: username,
         email: isValidEmail ? payload.identifier : null,
         phoneNumber: isValidPhone ? payload.identifier : null,
         password: password,
@@ -87,7 +90,9 @@ class RegisterUser {
       return Result.ok({
         user: {
           id: user.id,
-          name: user.name
+          name: user.fullName,
+          username: user.username,
+          email: user.email,
         },
         accessToken: accessToken,
         refreshToken: refreshToken,
@@ -97,6 +102,28 @@ class RegisterUser {
       this.#logger.error('Unexpected error during register user', {error: error.message});
       return Result.fail(error.message);
     }
+  }
+
+  async #generateUsername(fullName) {
+    // Strip special characters and convert to lowercase
+    const baseUsername = fullName.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    let username = baseUsername;
+    let isUnique = false;
+    let counter = 1;
+
+    // Ensure the username is unique by appending a counter if needed
+    while (!isUnique) {
+      const existingUser = await this.#userRepository.findByUsername(username);
+      if (!existingUser) {
+        isUnique = true;
+      } else {
+        username = `${baseUsername}${counter}`;
+        counter++;
+      }
+    }
+
+    return username;
   }
 }
 

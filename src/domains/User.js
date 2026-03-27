@@ -1,9 +1,10 @@
 class User {
   constructor(payload) {
-    const { id, name, email, phoneNumber, password, verified, createdAt, updatedAt } = payload;
+    const { id, fullName, username, email, phoneNumber, password, verified, createdAt, updatedAt } = payload;
 
     this.id = id;
-    this.name = name;
+    this.fullName = fullName;
+    this.username = username;
     this.email = email;
     this.phoneNumber = phoneNumber;
     this.password = password;

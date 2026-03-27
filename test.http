@@ -21,7 +21,7 @@ POST http://localhost:3000/api/auth/register/verify-code
 Content-Type: application/json
 
 {
-  "code": "394639",
+  "code": "182248",
   "identifier": "regysaputradev@gmail.com"
 }
 
@@ -46,3 +46,37 @@ Content-Type: application/json
   "password": "12345678",
   "rememberMe": false
 }
+
+> {%
+  // Log all response headers to see if Set-Cookie exists
+  console.log("All response headers:", response.headers);
+  console.log("Set-Cookie header:", response.headers["set-cookie"]);
+
+  // Check specifically for refresh_token cookie
+  const setCookie = response.headers["set-cookie"];
+  if (setCookie) {
+    console.log("Cookies being set:", setCookie);
+    if (setCookie.some(c => c.includes("refresh_token"))) {
+      console.log("✓ Refresh token cookie found!");
+    } else {
+      console.log("✗ No refresh_token cookie in Set-Cookie");
+    }
+  } else {
+    console.log("✗ No Set-Cookie headers in response");
+  }
+%}
+
+### Debug
+GET http://localhost:3000/api/debug-cookies
+
+### Refresh Session
+POST http://localhost:3000/api/auth/refresh
+X-Forwarded-For: 114.10.148.4
+
+### Get User Profile
+GET http://localhost:3000/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTlkMGI1Zi04NDdmLTc0YWItYmJmNC03YjI5YTcxYWRiOWIiLCJpYXQiOjE3NzQwMTIzMDIsImV4cCI6MTc3NDAxNDEwMn0.mgdkaihN0MgWEN_5LjsqrOelmNGSoIJ5shb5ETXuyjU
+
+### Get All Thread
+GET http://localhost:3000/api/threads/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTlkMGI1Zi04NDdmLTc0YWItYmJmNC03YjI5YTcxYWRiOWIiLCJpYXQiOjE3NzQwMTIzMDIsImV4cCI6MTc3NDAxNDEwMn0.mgdkaihN0MgWEN_5LjsqrOelmNGSoIJ5shb5ETXuyjU

@@ -12,6 +12,7 @@ class GetProfile {
 
   async execute(payload) {
     try {
+      console.log("GET PROFILE payload: ", payload);
       // Find user in db
       const result = await this.#userRepository.findById(payload.userId);
 
@@ -21,7 +22,8 @@ class GetProfile {
 
       return Result.ok({
         id: result.id,
-        name: result.name,
+        fullName: result.fullName,
+        username: result.username,
         email: result.email,
         phoneNumber: result.phone_number,
       });

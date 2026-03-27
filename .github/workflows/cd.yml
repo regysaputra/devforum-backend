@@ -1,30 +1,61 @@
 name: Continuous Deployment
+
 on:
-  push:
+  workflow_run:
+    workflows: ["Continuous Integration"] # Must match the 'name' of your CI workflow
+    types:
+      - completed
     branches:
-      - main
+      - main # Only trigger when the CI runs on the main branch
+
 jobs:
   deploy:
+    # Crucial: This ensures deployment ONLY happens if CI passed.
+    # Without this, it would try to deploy even if CI failed.
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+
     steps:
-      - name: Deploy to server
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
           script: |
-            echo "=== Current PATH ==="
-            echo $PATH
-            echo "=== Finding npm ==="
-            which npm || echo "npm not found in PATH"
-            find /usr -name npm -type f 2>/dev/null | head -5
-            find /usr/local -name npm -type f 2>/dev/null | head -5
-            find /home -name npm -type f 2>/dev/null | head -5
-            echo "=== Finding pm2 ==="
-            which pm2 || echo "pm2 not found in PATH"
-            find /usr -name pm2 -type f 2>/dev/null | head -5
-            find /usr/local -name pm2 -type f 2>/dev/null | head -5
-            find /home -name pm2 -type f 2>/dev/null | head -5
-          debug: true
+            # Define your variables for cleaner code
+            APP_DIR="devforum-backend"
+            REPO_URL="git@github.com:regysaputra/devforum-backend.git"
+
+            # 1. Check if the application directory exists
+            if [ ! -d "$APP_DIR" ]; then
+              echo "Directory does not exist. Performing initial clone..."
+              # Create the parent directories if needed
+              mkdir -p "$APP_DIR"
+              # Clone the repository directly into the target folder
+              git clone "$REPO_URL" "$APP_DIR"
+              cd "$APP_DIR"
+            else
+              echo "Directory exists. Pulling latest updates..."
+              cd "$APP_DIR"
+
+              # Ensure the server's working tree is clean to prevent merge conflicts
+              git reset --hard
+
+              # Pull the latest code
+              git pull origin main
+            fi
+
+            # 2. Install production dependencies
+            npm ci --production
+
+            # 3. Run database migrations
+            npm run migrate:up
+
+            # 4. Restart or Start PM2
+            # If PM2 doesn't know about the app yet (first run), 'reload' will fail. 
+            # The '||' operator catches that failure and runs 'start' instead.
+            pm2 reload ecosystem.config.cjs --env production --update-env || pm2 start ecosystem.config.cjs --env production
+
+            # 5. Persist the PM2 list across server reboots
+            pm2 save
