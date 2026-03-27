@@ -5,8 +5,6 @@ on:
     workflows: ["Continuous Integration"] # Must match the 'name' of your CI workflow
     types:
       - completed
-    branches:
-      - main # Only trigger when the CI runs on the main branch
 
 jobs:
   deploy:
