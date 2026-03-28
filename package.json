@@ -8,9 +8,6 @@
   "main": "index.js",
   "scripts": {
     "migrate": "node-pg-migrate",
-    "migrate:prod": "node-pg-migrate --envPath .env",
-    "migrate:dev": "node-pg-migrate --envPath .development.env",
-    "migrate:test": "node-pg-migrate --envPath .test.env",
     "test": "jest --setupFiles dotenv/config -i",
     "start": "node src/app.js",
     "dev:app": "cross-env NODE_ENV=development nodemon src/app.js",
@@ -44,14 +41,14 @@
     "pino": "^10.3.1",
     "twilio": "^5.12.2",
     "ua-parser-js": "^2.0.9",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "node-pg-migrate": "^8.0.4"
   },
   "devDependencies": {
     "@testcontainers/postgresql": "^11.12.0",
     "cross-env": "^10.1.0",
     "eslint": "^10.0.0",
     "jest": "^30.2.0",
-    "node-pg-migrate": "^8.0.4",
     "nodemon": "^3.1.14",
     "supertest": "^7.2.2",
     "testcontainers": "^11.12.0"

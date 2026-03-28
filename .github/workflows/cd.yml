@@ -48,7 +48,7 @@ jobs:
             npm ci --production
 
             # 3. Run database migrations
-            npm run migrate:up
+            npm run migrate up
 
             # 4. Restart or Start PM2
             # If PM2 doesn't know about the app yet (first run), 'reload' will fail. 
