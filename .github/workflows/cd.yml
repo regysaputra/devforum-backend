@@ -43,7 +43,20 @@ jobs:
               # Pull the latest code
               git pull origin main
             fi
-
+            
+            # --- NEW .ENV CHECK LOGIC ---
+            if [ ! -f .env ]; then
+              echo "⚠️ .env file does not exist. Creating an empty .env file..."
+              touch .env
+            
+              # Optional: You can also inject default variables right here
+              # echo "NODE_ENV=production" >> .env
+              # echo "PORT=3000" >> .env
+            else
+              echo "✅ .env file already exists."
+            fi
+            # ----------------------------
+            
             # 2. Install production dependencies
             npm ci --production
 
