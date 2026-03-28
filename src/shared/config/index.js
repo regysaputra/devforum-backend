@@ -18,11 +18,12 @@ const config = {
     env: process.env.NODE_ENV || 'production',
   },
   database: {
-    host: process.env.PG_HOST,
-    port: parseInt(process.env.PG_PORT, 10),
-    user: process.env.PG_USER,
-    password: process.env.PG_PASS,
-    name: process.env.PG_DATABASE,
+    url: process.env.DATABASE_URL,
+    // host: process.env.PG_HOST,
+    // port: parseInt(process.env.PG_PORT, 10),
+    // user: process.env.PG_USER,
+    // password: process.env.PG_PASS,
+    // name: process.env.PG_DATABASE,
   },
   redis: {
     host: process.env.REDIS_HOST || '127.0.0.1',

@@ -33,11 +33,7 @@ import PostgresThreadRepository from "./repository/PostgresThreadRepository.js";
 const container = createContainer();
 
 const dbPool = new Pool({
-  host: config.database.host,
-  user: config.database.user,
-  password: config.database.password,
-  database: config.database.name,
-  port: config.database.port,
+  connectionString: config.database.url,
   max: 20, // Maximum number of connections in the pool
   idleTimeoutMillis: 30000
 });
