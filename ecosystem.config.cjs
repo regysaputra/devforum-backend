@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "dev-forum-api",
-      script: "./devforum-backend/src/app.js",
+      script: "./src/app.js",
       instances: "max",
       exec_mode: "cluster",
       watch: false,
@@ -16,7 +16,7 @@ module.exports = {
     },
     {
       name: "dev-forum-worker",
-      script: "./devforum-backend/src/worker.js",
+      script: "./src/worker.js",
       instances: 2,
       exec_mode: "cluster",
       watch: false,
