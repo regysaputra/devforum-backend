@@ -5,3 +5,4 @@ aws
 .serverless
 .idea
 *.pem
+ecosystem.config.cjs
