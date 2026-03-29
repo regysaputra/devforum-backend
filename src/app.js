@@ -68,7 +68,7 @@ app.use(httpLogger(logger));
 // This MUST be the very last middleware you use.
 // It catches anything that falls through the cracks or throws unexpectedly.
 
-app.use("/api", createRouter({
+app.use("/api/v1", createRouter({
   verifyAccessToken: verifyAccessTokenMiddleware,
 }));
 
