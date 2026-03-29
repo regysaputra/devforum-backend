@@ -11,6 +11,7 @@ jobs:
     # Crucial: This ensures deployment ONLY happens if CI passed.
     # Without this, it would try to deploy even if CI failed.
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    environment: production
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +19,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ vars.SERVER_HOST }}
-          username: ${{ vars.SSH_USERNAME }}
+          username: ${{ vars.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e # Stop script immediately on error
