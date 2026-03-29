@@ -81,7 +81,7 @@ jobs:
             # 4. Restart or Start PM2
             # If PM2 doesn't know about the app yet (first run), 'reload' will fail. 
             # The '||' operator catches that failure and runs 'start' instead.
-            pm2 reload ~/ecosystem.config.cjs || pm2 start ~/ecosystem.config.cjs
+            pm2 reload ~/ecosystem.config.js || pm2 start ~/ecosystem.config.js
 
             # 5. Persist the PM2 list across server reboots
             pm2 save
