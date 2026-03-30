@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const VerifyCodeDTO = Joi.object({
+const RegisterUserDTO = Joi.object({
   name: Joi
     .string()
     .trim()
@@ -24,4 +24,4 @@ const VerifyCodeDTO = Joi.object({
     })
 });
 
-export default VerifyCodeDTO;
+export default RegisterUserDTO;

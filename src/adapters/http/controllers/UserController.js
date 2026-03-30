@@ -10,7 +10,7 @@ class UserController {
   async getProfile(req, res, next) {
     try {
       const result = await this.#getProfileUseCase.execute({  userId: req.user.userId });
-      console.log("result : ", result);
+
       if (result.isFailure) {
         return res.status(400).json({
           status: "fail",

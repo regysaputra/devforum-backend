@@ -145,9 +145,6 @@ class AuthController {
 
   async refreshSession(req, res, next) {
     try {
-      console.log("ENV :", config.app.env);
-      console.log("refreshToken :", req.cookies);
-
       const result = await this.#refreshSessionUseCase.execute({
         ip: req.ip,
         userAgent: this._getUserAgent(req),
